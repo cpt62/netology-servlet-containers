@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import ru.netology.model.Post;
 import ru.netology.service.PostService;
 
+import javax.servlet.ServletRegistration;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.Reader;
@@ -37,5 +38,13 @@ public class PostController {
 
   public void removeById(long id, HttpServletResponse response) {
     // TODO: deserialize request & serialize response
+  }
+
+  public void getNotFound(HttpServletResponse response) {
+      try {
+          response.getOutputStream().write(service.getNotFoundTemplate());
+      } catch (IOException e) {
+        System.err.println("Ошибка получения выходного потока");
+      }
   }
 }

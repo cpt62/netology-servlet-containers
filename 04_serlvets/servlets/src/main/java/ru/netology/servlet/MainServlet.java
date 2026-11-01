@@ -25,6 +25,12 @@ public class MainServlet extends HttpServlet {
       final var path = req.getRequestURI();
       final var method = req.getMethod();
       // primitive routing
+
+//      if (method.equals("GET") && path.equals("/")) {
+//        System.out.println("!!!!!!!!!!!!!!");
+//        return;
+//      }
+
       if (method.equals("GET") && path.equals("/api/posts")) {
         controller.all(resp);
         return;
@@ -45,7 +51,7 @@ public class MainServlet extends HttpServlet {
         controller.removeById(id, resp);
         return;
       }
-      resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+      controller.getNotFound(resp);
     } catch (Exception e) {
       e.printStackTrace();
       resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
