@@ -9,6 +9,8 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class PostService {
     private final PostRepository repository;
@@ -17,7 +19,7 @@ public class PostService {
         this.repository = repository;
     }
 
-    public List<Post> all() {
+    public ConcurrentHashMap<Long, Post> all() {
         return repository.all();
     }
 
@@ -25,8 +27,19 @@ public class PostService {
         return repository.getById(id).orElseThrow(NotFoundException::new);
     }
 
-    public Post save(Post post) {
-        return repository.save(post);
+    public Optional<ConcurrentHashMap<Long, Post>> save(Post post) {
+        long postId = post.getId();
+        ConcurrentHashMap<Long, Post> posts = repository.getPosts();
+        if (postId == 0) {
+            long key = repository.getPostId().accumulateAndGet(1, Long::sum);
+            posts.put(key, new Post(key, post.getContent()));
+        } else if (repository.getPosts().containsKey(postId)) {
+            posts.put(postId, post);
+        } else {
+            System.err.println("Сервер получил некорректный запрос");
+            return Optional.empty();
+        }
+        return Optional.of(posts);
     }
 
     public void removeById(long id) {
