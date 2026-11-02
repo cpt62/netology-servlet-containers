@@ -6,6 +6,7 @@ import ru.netology.repository.PostRepository;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.http.HttpRequest;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -42,12 +43,12 @@ public class PostService {
         return Optional.of(posts);
     }
 
-    public void removeById(long id) {
-        repository.removeById(id);
+    public boolean removeById(long id) {
+        return repository.removeById(id);
     }
 
-    public byte[] getNotFoundTemplate() {
-        String path = "templates/not_found.html";
+    public byte[] getNotFoundRemoveId() {
+        String path = "templates/not_found_remove_id.html";
         byte[] bytes = null;
         try {
             bytes = getClass().getClassLoader().getResourceAsStream(path).readAllBytes();
@@ -55,7 +56,6 @@ public class PostService {
             System.err.println("Ошибка чтения файла");
         }
         return bytes;
-
     }
 }
 
