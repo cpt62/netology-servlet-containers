@@ -1,6 +1,8 @@
 package ru.netology.controller;
 
 import com.google.gson.Gson;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 import ru.netology.exception.NotFoundException;
 import ru.netology.model.Post;
 import ru.netology.service.PostService;
@@ -11,6 +13,8 @@ import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 
+@Controller
+@RequestMapping("/api/posts")
 public class PostController {
     public static final String APPLICATION_JSON = "application/json";
     private final PostService service;
@@ -21,6 +25,7 @@ public class PostController {
         this.gson = new Gson();
     }
 
+    @GetMapping
     public void all(HttpServletResponse response) {
         response.setContentType(APPLICATION_JSON);
         final var data = service.all();
@@ -32,7 +37,8 @@ public class PostController {
         }
     }
 
-    public void getById(long id, HttpServletResponse response) {
+    @GetMapping("/{id}")
+    public void getById(@PathVariable long id, HttpServletResponse response) {
         response.setContentType(APPLICATION_JSON);
         response.setCharacterEncoding("UTF-8");
         Post post = null;
@@ -54,6 +60,7 @@ public class PostController {
         }
     }
 
+    @PostMapping
     public void save(Reader body, HttpServletResponse response) throws IOException {
         response.setContentType(APPLICATION_JSON);
         final var gson = new Gson();
@@ -66,7 +73,8 @@ public class PostController {
         response.sendRedirect("/api/posts");
     }
 
-    public void removeById(long id, HttpServletResponse response) {
+    @DeleteMapping("/{id}")
+    public void removeById(@PathVariable long id, HttpServletResponse response) {
         response.setCharacterEncoding("UTF-8");
         response.setContentType(APPLICATION_JSON);
         try {
