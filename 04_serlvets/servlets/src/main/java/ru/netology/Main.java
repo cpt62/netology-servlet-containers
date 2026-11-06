@@ -1,6 +1,5 @@
 package ru.netology;
 
-import org.apache.catalina.ContainerEvent;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.connector.Connector;
 import org.apache.catalina.startup.Tomcat;
@@ -12,7 +11,7 @@ import java.nio.file.Path;
 public class Main {
     public static void main(String[] args) {
         Tomcat tomcat = new Tomcat();
-        Path basedir = null;
+        Path basedir;
         try {
             basedir = Files.createTempDirectory("tomcat");
         } catch (IOException e) {
