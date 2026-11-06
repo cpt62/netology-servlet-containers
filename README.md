@@ -28,4 +28,4 @@
   исключения, `Spring` пробросит исключение в `Dispatcher Servlet` с целью вывода 404 ошибки;
 - Рефакторинг методов сервиса с учетом необходимости проверки флага isRemoved;
 - С целью сокрытия флага при выводе экземпляров `Post`, был добавлен `Data Transfer Object (DTO)`
-  `src/main/java/ru/netology/controller/dto/PostResponse.java`;
+  `04_serlvets/servlets/src/main/java/ru/netology/controller/dto/PostResponse.java`;
